@@ -39,9 +39,9 @@ public class CustomerController {
 			customerResponse = customerService.createCustomer(customer);
 			logger.debug("customerResponse ::" + customerResponse.toString());
 			if (customerResponse != null) {
-				providerInfo.setStatusCode("200");
+				providerInfo.setStatusCode("201");
 				providerInfo.setMessage("Successfully Created Customer");
-				return new ResponseEntity<ProviderInfo>(providerInfo, HttpStatus.OK);
+				return new ResponseEntity<ProviderInfo>(providerInfo, HttpStatus.CREATED);
 			} else {
 				error.setStatusCode("500");
 				error.setMessage("The request is failed due to an Internal Server");
