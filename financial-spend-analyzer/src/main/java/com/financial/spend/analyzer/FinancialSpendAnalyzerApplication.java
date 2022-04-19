@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @SpringBootApplication
+@EnableSwagger2
 public class FinancialSpendAnalyzerApplication {
 
 	private static Logger logger = LoggerFactory.getLogger(FinancialSpendAnalyzerApplication.class);
@@ -16,4 +18,5 @@ public class FinancialSpendAnalyzerApplication {
 		SpringApplication.run(FinancialSpendAnalyzerApplication.class, args);
 		logger.debug("FinancialSpendAnalyzerApplication started successfully");
 	}
+
 }
