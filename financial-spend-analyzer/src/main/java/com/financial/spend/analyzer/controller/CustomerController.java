@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.financial.spend.analyzer.exception.ErrorDetails;
 import com.financial.spend.analyzer.model.*;
 import com.financial.spend.analyzer.service.CustomerService;
 
@@ -27,33 +25,14 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
-	@SuppressWarnings("unused")
 	@PostMapping("/customer/register")
 	public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerInformation customer) {
-		ResponseEntity<?> customerResponse = null;
-		ProviderInfo providerInfo = new ProviderInfo();
-		ErrorDetails error = new ErrorDetails();
+		ResponseEntity<?> customerResponseDto = null;
+		
+		logger.debug("Invoke create customer service");
+		customerResponseDto = customerService.createCustomer(customer);
+		logger.debug("customerResponse ::" + customerResponseDto.toString());
 
-		try {
-			logger.debug("Invoke create customer service");
-			customerResponse = customerService.createCustomer(customer);
-			logger.debug("customerResponse ::" + customerResponse.toString());
-			if (customerResponse != null) {
-				providerInfo.setStatusCode("201");
-				providerInfo.setMessage("Successfully Created Customer");
-				return new ResponseEntity<ProviderInfo>(providerInfo, HttpStatus.CREATED);
-			} else {
-				error.setStatusCode("500");
-				error.setMessage("The request is failed due to an Internal Server");
-
-				return new ResponseEntity<ErrorDetails>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		} catch (Exception e) {
-			logger.debug("The request is failed due to  wrong input" + e.getMessage());
-			error.setStatusCode("400");
-			error.setMessage("bad request");
-			return new ResponseEntity<ErrorDetails>(error, HttpStatus.BAD_REQUEST);
-
-		}
+		return customerResponseDto;
 	}
 }
